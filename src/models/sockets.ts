@@ -1,10 +1,14 @@
 import { Socket } from "socket.io";
+import TicketList from "./ticket-list";
 
 class Sockets {
     io: Socket;
+    ticketList: TicketList;
 
     constructor(io: Socket) {
         this.io = io;
+
+        this.ticketList = new TicketList();
 
         this.socketEvents();
     }
@@ -12,6 +16,11 @@ class Sockets {
     socketEvents() {
         this.io.on('connection', (socket: Socket) => {
             console.log('Client connected: ', socket.id, socket.handshake.address);
+
+            socket.on('requestTicket', (data, callback) => {
+                const newTicket = this.ticketList.createTicket();
+                callback(newTicket);
+            })
 
             //on disconnected client
             socket.on("disconnect", () => {
