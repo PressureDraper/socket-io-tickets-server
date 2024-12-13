@@ -20,7 +20,13 @@ class Sockets {
             socket.on('requestTicket', (data, callback) => {
                 const newTicket = this.ticketList.createTicket();
                 callback(newTicket);
-            })
+            });
+
+            socket.on('getNextTicket', (data, callback) => {
+                const ticket = this.ticketList.assignTicket(data.username, data.desktop);
+
+                callback(ticket);
+            });
 
             //on disconnected client
             socket.on("disconnect", () => {
