@@ -17,7 +17,7 @@ class Sockets {
         this.io.on('connection', (socket: Socket) => {
             console.log('Client connected: ', socket.id, socket.handshake.address);
 
-            socket.on('requestTicket', (data, callback) => {
+            socket.on('requestTicket', (_, callback) => {
                 const newTicket = this.ticketList.createTicket();
                 callback(newTicket);
             });
@@ -26,6 +26,8 @@ class Sockets {
                 const ticket = this.ticketList.assignTicket(data.username, data.desktop);
 
                 callback(ticket);
+                
+                this.io.emit('assignedTickets', this.ticketList.last13Tickets);
             });
 
             //on disconnected client

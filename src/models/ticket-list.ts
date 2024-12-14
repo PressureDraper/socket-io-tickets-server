@@ -30,7 +30,7 @@ class TicketList {
         if (this.pending.length === 0) {
             return null;
         } else {
-            let nextTicket = this.pending.shift()
+            let nextTicket = this.pending.shift();
             nextTicket!.agent = agent;
             nextTicket!.desktop = desktop;
 
